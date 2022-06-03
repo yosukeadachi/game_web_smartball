@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  smartball-dev:
+    build:
+      context: ./../../../
+      dockerfile: tools/docker/develop/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+      - 4173:4173
+    volumes:
+      - ./../../..:/prj
+    command: 
+      - tail
+      - -f
+      - /dev/null
