@@ -1,8 +1,16 @@
-import './style.css'
+import Phaser from "phaser";
+import {MyScene} from "./scenes/MyScene";
 
-const app = document.querySelector<HTMLDivElement>('#app')!
-
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+const config: Phaser.Types.Core.GameConfig = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 200 },
+    },
+  },
+  scene: MyScene,
+};
+new Phaser.Game(config);

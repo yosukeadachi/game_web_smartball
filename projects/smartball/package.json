@@ -9,7 +9,10 @@
     "deploy": "rm -Rf ./../../docs && mkdir ./../../docs && cp -r ./dist/* ./../../docs/"
   },
   "devDependencies": {
-    "typescript": "^4.5.4",
+    "typescript": "^4.7.3",
     "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2"
   }
 }
