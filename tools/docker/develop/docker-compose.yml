@@ -6,8 +6,7 @@ services:
       dockerfile: tools/docker/develop/Dockerfile
     restart: always
     ports:
-      - 3000:3000
-      - 4173:4173
+      - 3300:3300
     volumes:
       - ./../../..:/prj
     command: 
