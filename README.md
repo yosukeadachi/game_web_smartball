@@ -14,7 +14,7 @@ $ docker compose up -d
 
 ### 開発環境dockerへログイン
 ```
-$ docker compose exec smartball-dev sh
+$ docker compose exec smartball-dev zsh
 ```
 
 ### 初回環境インストール(最初だけ)
