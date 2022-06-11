@@ -1,5 +1,13 @@
 var b2 = require("@akashic-extension/akashic-box2d");
 function main(param) {
+    var PATHS = {
+        DOME_LEFT: '0 0 0 250 19 250 20 231.9 25.7 196.1 36.9 161.7 53.3 129.5 74.6 100.2 100.2 74.6 129.5 53.3 161.7 36.9 196.1 25.7 231.9 20 268.1 20',
+        DOME_RIGHT: '268.1 20 303.9 25.7 338.3 36.9 370.5 53.3 399.8 74.6 425.4 100.2 446.7 129.5 463.1 161.7 474.3 196.1 480 231.9 480 250 500 250 500 0 0 0',
+        DROP_LEFT: '0 0 20 0 70 100 20 150 0 150 0 0',
+        DROP_RIGHT: '50 0 68 0 68 150 50 150 0 100 50 0',
+        APRON_LEFT: '0 0 180 120 0 120 0 0',
+        APRON_RIGHT: '180 0 180 120 0 120 180 0'
+    };
     var scene = new g.Scene({
         game: g.game,
         assetIds: ["ball"]
@@ -50,16 +58,17 @@ function main(param) {
         });
         scene.append(ball);
         // polygonエンティティの生成
-        var verts = [];
-        verts.push(new b2.Box2DWeb.Common.Math.b2Vec2(0, 0));
-        verts.push(new b2.Box2DWeb.Common.Math.b2Vec2(100, 0));
-        verts.push(new b2.Box2DWeb.Common.Math.b2Vec2(0, 100));
-        createPolygon(scene, worldProperty, physics, verts);
+        createPolygon(scene, worldProperty, physics, pathToVerts(PATHS.DOME_LEFT));
+        createPolygon(scene, worldProperty, physics, pathToVerts(PATHS.DOME_RIGHT));
+        // createPolygon(scene,worldProperty,physics,pathToVerts(PATHS.DROP_LEFT))
+        // createPolygon(scene,worldProperty,physics,pathToVerts(PATHS.DROP_RIGHT))
+        // createPolygon(scene,worldProperty,physics,pathToVerts(PATHS.APRON_LEFT))
+        // createPolygon(scene,worldProperty,physics,pathToVerts(PATHS.APRON_RIGHT))
         // エンティティの性質を定義
         var entityDef = physics.createFixtureDef({
             density: 1.0,
             friction: 0.5,
-            restitution: 0.3 // 反発係数
+            restitution: 1.2 //0.3 // 反発係数
         });
         // 動的物体化
         var dynamicDef = physics.createBodyDef({
@@ -95,6 +104,33 @@ function main(param) {
         });
     });
     g.game.pushScene(scene);
+}
+/**
+ * パス文字列から頂点配列を生成する
+ * @param {string} path パス文字列 ex) 0 0 100 100 ... (x1 y1 x2 y2 ...)
+ */
+function pathToPoints(path) {
+    var points = [];
+    var pathArray = path.split(' ');
+    for (var i = 0; i < pathArray.length / 2; i++) {
+        var _point = [];
+        _point.push(Number(pathArray[i * 2 + 0]));
+        _point.push(Number(pathArray[i * 2 + 1]));
+        points.push(_point);
+    }
+    return points;
+}
+/**
+ * パス文字列から頂点配列を生成する
+ * @param {string} path パス文字列 ex) 0 0 100 100 ... (x1 y1 x2 y2 ...)
+ */
+function pathToVerts(path) {
+    var verts = [];
+    var pathArray = path.split(' ');
+    for (var i = 0; i < pathArray.length / 2; i++) {
+        verts.push(new b2.Box2DWeb.Common.Math.b2Vec2(Number(pathArray[i * 2 + 0]), Number(pathArray[i * 2 + 1])));
+    }
+    return verts;
 }
 /**
  * 線を生成する
