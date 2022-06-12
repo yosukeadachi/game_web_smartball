@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  delaunator:
+    build:
+      context: ./../../../
+      dockerfile: tools/docker/delaunator/Dockerfile
+    restart: always
+    volumes:
+      - ./../../..:/prj
+    command: 
+      - tail
+      - -f
+      - /dev/null
